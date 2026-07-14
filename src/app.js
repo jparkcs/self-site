@@ -104,6 +104,26 @@ function renderExercise(root, day, sessionKey) {
   if (!session) return root.appendChild(el('p','p-4','Session not found'))
 
   const list = el('div','p-4 space-y-4')
+  const getFallbackDataUrl = (label) => {
+    const svg = `
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 120' width='320' height='120'>
+        <rect width='100%' height='100%' fill='%23f8fafc' rx='8' />
+        <g transform='translate(40,60)'>
+          <rect x='-40' y='-10' width='80' height='20' fill='%233b82f6' rx='4'>
+            <animateTransform attributeName='transform' type='translate' dur='1.2s' values='0 0;0 -6;0 0' repeatCount='indefinite'/>
+          </rect>
+          <circle cx='-64' cy='0' r='14' fill='%230f172a'>
+            <animate attributeName='r' values='14;10;14' dur='1.2s' repeatCount='indefinite'/>
+          </circle>
+          <circle cx='64' cy='0' r='14' fill='%230f172a'>
+            <animate attributeName='r' values='14;10;14' dur='1.2s' begin='0.3s' repeatCount='indefinite'/>
+          </circle>
+        </g>
+        <text x='160' y='100' font-family='Arial,Helvetica,sans-serif' font-size='12' fill='%236b7280' text-anchor='middle'>` + label.replace(/&/g,'&amp;') + `</text>
+      </svg>`
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg)
+  }
+
   session.forEach(ex => {
     const card = el('div','bg-white rounded p-4 shadow','')
     card.appendChild(el('h4','text-lg font-semibold', ex.name))
@@ -111,8 +131,9 @@ function renderExercise(root, day, sessionKey) {
     card.appendChild(el('p','text-sm text-gray-600 italic', ex.notes || ''))
     const gif = el('div','mt-2','')
     const img = el('img','w-full max-w-xs rounded','')
-    img.src = `/public/placeholders/${ex.gif}`
+    img.src = `/placeholders/${ex.gif}`
     img.alt = ex.name
+    img.onerror = () => { img.src = getFallbackDataUrl(ex.name) }
     gif.appendChild(img)
     card.appendChild(gif)
     list.appendChild(card)
