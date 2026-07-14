@@ -152,8 +152,7 @@ function renderMainMenu(root) {
   logoutBtn.addEventListener('click', () => { logout(); renderUserSelect(root) })
   header.appendChild(logoutBtn)
   root.appendChild(header)
-
-  const container = el('div','p-4 space-y-4')
+  const container = el('div','p-4 space-y-4 mx-auto max-w-4xl px-4')
 
   const exercise = el('div','p-4 bg-white rounded shadow','')
   exercise.appendChild(el('h3','text-lg font-semibold','Exercise'))
@@ -185,6 +184,7 @@ function renderWeekly(root) {
   })
   root.appendChild(header)
   header.appendChild(logoutBtn)
+  const listContainer = el('div','mx-auto max-w-4xl px-4')
   const list = el('div','p-4 flex flex-col gap-3')
   const days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
   days.forEach(d => {
@@ -192,7 +192,8 @@ function renderWeekly(root) {
     btn.addEventListener('click', () => navTo(`/day/${d}`))
     list.appendChild(btn)
   })
-  root.appendChild(list)
+  listContainer.appendChild(list)
+  root.appendChild(listContainer)
 }
 
 function renderDay(root, day) {
@@ -200,8 +201,9 @@ function renderDay(root, day) {
   const back = el('button', 'm-4 text-sm text-indigo-600', '← Back')
   back.addEventListener('click', () => navTo('/'))
   root.appendChild(back)
+  const container = el('div','mx-auto max-w-4xl px-4')
   const h = el('h1', 'text-2xl font-bold p-4', day.charAt(0).toUpperCase()+day.slice(1))
-  root.appendChild(h)
+  container.appendChild(h)
 
   const data = workouts[day]
   if (!data) {
@@ -221,7 +223,7 @@ function renderDay(root, day) {
     const btn = el('button','mt-4 bg-indigo-500 text-white px-3 py-2 rounded','Open Session')
     btn.addEventListener('click', () => navTo(`/exercise/${day}/single`))
     card.appendChild(btn)
-    root.appendChild(card)
+    container.appendChild(card)
     return
   }
 
@@ -231,16 +233,18 @@ function renderDay(root, day) {
     const amBtn = el('button','mt-3 bg-indigo-500 text-white px-3 py-2 rounded','Open AM')
     amBtn.addEventListener('click', () => navTo(`/exercise/${day}/am`))
     am.appendChild(amBtn)
-    root.appendChild(am)
+    container.appendChild(am)
 
     const pm = el('div','session-card m-4','')
     pm.appendChild(el('h3','text-lg font-semibold','PM - '+data.pm.title))
     const pmBtn = el('button','mt-3 bg-indigo-500 text-white px-3 py-2 rounded','Open PM')
     pmBtn.addEventListener('click', () => navTo(`/exercise/${day}/pm`))
     pm.appendChild(pmBtn)
-    root.appendChild(pm)
+    container.appendChild(pm)
+    root.appendChild(container)
     return
   }
+  root.appendChild(container)
 }
 
 function renderExercise(root, day, sessionKey) {
@@ -290,7 +294,9 @@ function renderExercise(root, day, sessionKey) {
     card.appendChild(gif)
     list.appendChild(card)
   })
-  root.appendChild(list)
+  const container = el('div','mx-auto max-w-4xl px-4')
+  container.appendChild(list)
+  root.appendChild(container)
 }
 
 function renderMuscle(root) {
@@ -306,6 +312,7 @@ function renderMuscle(root) {
     if (d.type === 'single') all.push(...d.session)
     if (d.type === 'double') { all.push(...d.am.session); all.push(...d.pm.session) }
   })
+  const container = el('div','mx-auto max-w-4xl px-4')
   const list = el('div','p-4 space-y-3')
   all.forEach(e => {
     const card = el('div','bg-white rounded p-3 shadow','')
@@ -313,7 +320,8 @@ function renderMuscle(root) {
     card.appendChild(el('div','text-sm text-gray-600', e.notes || ''))
     list.appendChild(card)
   })
-  root.appendChild(list)
+  container.appendChild(list)
+  root.appendChild(container)
 }
 
 function renderStretch(root) {
@@ -322,7 +330,7 @@ function renderStretch(root) {
   back.addEventListener('click', () => renderMainMenu(root))
   root.appendChild(back)
   root.appendChild(el('h2','text-2xl font-bold p-4','Stretch Library'))
-  const container = el('div','p-4 space-y-4')
+  const container = el('div','p-4 space-y-4 mx-auto max-w-4xl px-4')
   // stretches can be nested; render top-level keys
   Object.keys(stretches).forEach(k => {
     const v = stretches[k]
