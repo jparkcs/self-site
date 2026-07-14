@@ -10,49 +10,12 @@ function el(tag, cls, txt) {
 }
 
 function loadUsers() {
-  try {
-    const raw = localStorage.getItem('users')
-    if (!raw) return [{ username: 'jp', password: 'jp', label: 'jp' }]
-    return JSON.parse(raw)
-  } catch (e) {
-    return [{ username: 'jp', password: 'jp', label: 'jp' }]
-  }
-}
-
-function saveUsers(users) {
-  localStorage.setItem('users', JSON.stringify(users))
-}
-
-function isAuthenticated() {
-  return !!localStorage.getItem('auth_user')
-}
-
-function currentUser() {
-  return localStorage.getItem('auth_user') || null
-}
-
-function login(username, password) {
-  const users = loadUsers()
-  const u = users.find(x => x.username === username && x.password === password)
-  if (u) {
-    localStorage.setItem('auth_user', u.username)
-    return true
-  }
-  return false
-}
-
-function logout() {
-  localStorage.removeItem('auth_user')
-}
-
-export function init(root) {
-  if (!isAuthenticated()) return renderUserSelect(root)
-  renderMainMenu(root)
-  window.onpopstate = () => {
-    route(location.pathname)
-  }
-}
-
+  root.innerHTML = ''
+  const back = el('button','m-4 text-sm text-indigo-600','← Back')
+  back.addEventListener('click', () => navTo('/'))
+  root.appendChild(back)
+  root.appendChild(el('h2','text-2xl font-bold p-4','Stretch Library (Coming soon)'))
+  root.appendChild(el('p','p-4','Stretch categories will be added here later.'))
 function renderUserSelect(root) {
   root.innerHTML = ''
   const users = loadUsers()
@@ -118,6 +81,7 @@ function renderLogin(root, prefillUser) {
       err.textContent = 'Invalid credentials'
       return
     }
+    navTo('/')
     renderMainMenu(root)
   })
   const back = el('button','w-full mt-2 border p-2 rounded','Back')
@@ -134,10 +98,15 @@ function route(path) {
   const root = document.getElementById('app')
   if (!root) return
   const parts = path.split('/').filter(Boolean)
-  if (parts.length === 0) return renderWeekly(root)
+  if (parts.length === 0) {
+    if (isAuthenticated()) return renderMainMenu(root)
+    return renderLogin(root)
+  }
+  if (parts[0] === 'weekly') return renderWeekly(root)
   if (parts[0] === 'day') return renderDay(root, parts[1])
   if (parts[0] === 'exercise') return renderExercise(root, parts[1], parts[2])
-  renderWeekly(root)
+  if (isAuthenticated()) return renderMainMenu(root)
+  return renderLogin(root)
 }
 
 function navTo(path) {
@@ -157,7 +126,7 @@ function renderMainMenu(root) {
   const exercise = el('div','p-4 bg-white rounded shadow','')
   exercise.appendChild(el('h3','text-lg font-semibold','Exercise'))
   const scheduleBtn = el('button','mt-3 bg-indigo-500 text-white px-3 py-2 rounded mr-2','Schedule')
-  scheduleBtn.addEventListener('click', () => renderWeekly(root))
+  scheduleBtn.addEventListener('click', () => navTo('/weekly'))
   const muscleBtn = el('button','mt-3 bg-gray-200 px-3 py-2 rounded','Muscle')
   muscleBtn.addEventListener('click', () => renderMuscle(root))
   exercise.appendChild(scheduleBtn)
@@ -184,6 +153,11 @@ function renderWeekly(root) {
   })
   root.appendChild(header)
   header.appendChild(logoutBtn)
+  const topControls = el('div','p-4')
+  const backToMenu = el('button','text-sm text-indigo-100 underline','← Back to Menu')
+  backToMenu.addEventListener('click', () => navTo('/'))
+  topControls.appendChild(backToMenu)
+  root.appendChild(topControls)
   const listContainer = el('div','mx-auto max-w-4xl px-4')
   const list = el('div','p-4 flex flex-col gap-3')
   const days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
@@ -327,24 +301,10 @@ function renderMuscle(root) {
 function renderStretch(root) {
   root.innerHTML = ''
   const back = el('button','m-4 text-sm text-indigo-600','← Back')
-  back.addEventListener('click', () => renderMainMenu(root))
+  back.addEventListener('click', () => navTo('/'))
   root.appendChild(back)
-  root.appendChild(el('h2','text-2xl font-bold p-4','Stretch Library'))
-  const container = el('div','p-4 space-y-4 mx-auto max-w-4xl px-4')
-  // stretches can be nested; render top-level keys
-  Object.keys(stretches).forEach(k => {
-    const v = stretches[k]
-    const card = el('div','bg-white rounded p-4 shadow','')
-    card.appendChild(el('h3','font-semibold', k.replace(/_/g,' ').toUpperCase()))
-    if (Array.isArray(v)) {
-      v.forEach(s => {
-        const row = el('div','flex items-center gap-3 mt-2','')
-        const img = el('img','w-24 rounded','')
-        img.src = `/placeholders/${s.gif}`
-        img.alt = s.name
-        const info = el('div','', '')
-        info.appendChild(el('div','font-medium', s.name))
-        row.appendChild(img)
+  root.appendChild(el('h2','text-2xl font-bold p-4','Muscle View (Coming soon)'))
+  root.appendChild(el('p','p-4','This view will be populated later.'))
         row.appendChild(info)
         card.appendChild(row)
       })
