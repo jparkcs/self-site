@@ -1,0 +1,15 @@
+; Example list of files and URLs for `scripts/fetch-gifs.ps1`
+; Copy this file to `gif-urls.txt` and replace the example URLs with actual Wikimedia Commons (or other) URLs.
+
+DB_Bulgarian_Split_Squat.gif https://example.org/path/to/DB_Bulgarian_Split_Squat.gif
+DB_Flat_Bench.gif https://example.org/path/to/DB_Flat_Bench.gif
+DB_Incline_Press.gif https://example.org/path/to/DB_Incline_Press.gif
+DB_Shoulder_Press.gif https://example.org/path/to/DB_Shoulder_Press.gif
+DB_Lateral_Raise.gif https://example.org/path/to/DB_Lateral_Raise.gif
+DB_Decline_Skullcrusher.gif https://example.org/path/to/DB_Decline_Skullcrusher.gif
+DB_Chest_Supported_Row.gif https://example.org/path/to/DB_Chest_Supported_Row.gif
+DB_Single_Arm_Row.gif https://example.org/path/to/DB_Single_Arm_Row.gif
+DB_Pullover.gif https://example.org/path/to/DB_Pullover.gif
+DB_RDL.gif https://example.org/path/to/DB_RDL.gif
+DB_Incline_Curl.gif https://example.org/path/to/DB_Incline_Curl.gif
+DB_Hammer_Curl.gif https://example.org/path/to/DB_Hammer_Curl.gif
