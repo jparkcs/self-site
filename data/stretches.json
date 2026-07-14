@@ -1,0 +1,39 @@
+{
+  "neck": [
+    {"name":"Neck tilt","gif":"DB_Shoulder_Press.gif"}
+  ],
+  "upper_back": [
+    {"name":"Upper back stretch","gif":"DB_Chest_Supported_Row.gif"}
+  ],
+  "middle_back": [
+    {"name":"Middle back stretch","gif":"DB_Single_Arm_Row.gif"}
+  ],
+  "lower_back": [
+    {"name":"Lower back stretch","gif":"DB_RDL.gif"}
+  ],
+  "arms": {
+    "bicep": [
+      {"name":"Bicep stretch","gif":"DB_Incline_Curl.gif"}
+    ],
+    "tricep": [
+      {"name":"Tricep stretch","gif":"DB_Decline_Skullcrusher.gif"}
+    ]
+  },
+  "legs": {
+    "glutes": [
+      {"name":"Glute stretch","gif":"DB_Bulgarian_Split_Squat.gif"}
+    ],
+    "hamstrings": [
+      {"name":"Hamstring stretch","gif":"DB_RDL.gif"}
+    ],
+    "calves": [
+      {"name":"Calf stretch","gif":"DB_Pullover.gif"}
+    ],
+    "quadriceps": [
+      {"name":"Quadriceps stretch","gif":"DB_Flat_Bench.gif"}
+    ]
+  },
+  "feet": [
+    {"name":"Foot mobility","gif":"DB_Lateral_Raise.gif"}
+  ]
+}

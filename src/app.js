@@ -1,22 +1,7 @@
 import workouts from '../data/workouts.json'
+import stretches from '../data/stretches.json'
 
-// Simple client-side auth using localStorage. Username/password: jp/jp
-function isAuthenticated() {
-  return localStorage.getItem('auth') === '1'
-}
-
-function login(username, password) {
-  if (username === 'jp' && password === 'jp') {
-    localStorage.setItem('auth', '1')
-    return true
-  }
-  return false
-}
-
-function logout() {
-  localStorage.removeItem('auth')
-}
-
+// --- Simple client-side auth + user management ---
 function el(tag, cls, txt) {
   const e = document.createElement(tag)
   if (cls) e.className = cls
@@ -24,20 +9,104 @@ function el(tag, cls, txt) {
   return e
 }
 
+function loadUsers() {
+  try {
+    const raw = localStorage.getItem('users')
+    if (!raw) return [{ username: 'jp', password: 'jp', label: 'jp' }]
+    return JSON.parse(raw)
+  } catch (e) {
+    return [{ username: 'jp', password: 'jp', label: 'jp' }]
+  }
+}
+
+function saveUsers(users) {
+  localStorage.setItem('users', JSON.stringify(users))
+}
+
+function isAuthenticated() {
+  return !!localStorage.getItem('auth_user')
+}
+
+function currentUser() {
+  return localStorage.getItem('auth_user') || null
+}
+
+function login(username, password) {
+  const users = loadUsers()
+  const u = users.find(x => x.username === username && x.password === password)
+  if (u) {
+    localStorage.setItem('auth_user', u.username)
+    return true
+  }
+  return false
+}
+
+function logout() {
+  localStorage.removeItem('auth_user')
+}
+
 export function init(root) {
-  if (!isAuthenticated()) return renderLogin(root)
-  renderWeekly(root)
+  if (!isAuthenticated()) return renderUserSelect(root)
+  renderMainMenu(root)
   window.onpopstate = () => {
     route(location.pathname)
   }
 }
 
-function renderLogin(root) {
+function renderUserSelect(root) {
+  root.innerHTML = ''
+  const users = loadUsers()
+  const card = el('div','max-w-md mx-auto mt-8 p-6 bg-white rounded shadow','')
+  card.appendChild(el('h2','text-xl font-semibold mb-4','Select user or add new'))
+  const select = el('select','w-full p-2 mb-3 border rounded','')
+  users.forEach(u => {
+    const opt = document.createElement('option')
+    opt.value = u.username
+    opt.textContent = u.username
+    select.appendChild(opt)
+  })
+  const proceed = el('button','w-full bg-indigo-600 text-white p-2 rounded mb-2','Sign in')
+  const add = el('button','w-full border p-2 rounded','Add new user')
+  proceed.addEventListener('click', () => renderLogin(root, select.value))
+  add.addEventListener('click', () => renderAddUser(root))
+  card.appendChild(select)
+  card.appendChild(proceed)
+  card.appendChild(add)
+  root.appendChild(card)
+}
+
+function renderAddUser(root) {
+  root.innerHTML = ''
+  const card = el('div','max-w-md mx-auto mt-8 p-6 bg-white rounded shadow','')
+  card.appendChild(el('h2','text-xl font-semibold mb-4','Add user'))
+  const user = el('input','w-full mb-2 p-2 border rounded')
+  user.placeholder = 'username'
+  const pass = el('input','w-full mb-4 p-2 border rounded')
+  pass.type = 'password'
+  pass.placeholder = 'password'
+  const btn = el('button','w-full bg-indigo-600 text-white p-2 rounded','Create')
+  const back = el('button','w-full mt-2 border p-2 rounded','Back')
+  btn.addEventListener('click', () => {
+    const users = loadUsers()
+    users.push({ username: user.value.trim(), password: pass.value, label: user.value.trim() })
+    saveUsers(users)
+    renderUserSelect(root)
+  })
+  back.addEventListener('click', () => renderUserSelect(root))
+  card.appendChild(user)
+  card.appendChild(pass)
+  card.appendChild(btn)
+  card.appendChild(back)
+  root.appendChild(card)
+}
+
+function renderLogin(root, prefillUser) {
   root.innerHTML = ''
   const card = el('div','max-w-sm mx-auto mt-12 p-6 bg-white rounded shadow','')
   card.appendChild(el('h2','text-xl font-semibold mb-4','Please sign in'))
   const user = el('input','w-full mb-2 p-2 border rounded')
   user.placeholder = 'username'
+  if (prefillUser) user.value = prefillUser
   const pass = el('input','w-full mb-4 p-2 border rounded')
   pass.type = 'password'
   pass.placeholder = 'password'
@@ -49,13 +118,15 @@ function renderLogin(root) {
       err.textContent = 'Invalid credentials'
       return
     }
-    route('/')
-    renderWeekly(root)
+    renderMainMenu(root)
   })
+  const back = el('button','w-full mt-2 border p-2 rounded','Back')
+  back.addEventListener('click', () => renderUserSelect(root))
   card.appendChild(user)
   card.appendChild(pass)
   card.appendChild(btn)
   card.appendChild(err)
+  card.appendChild(back)
   root.appendChild(card)
 }
 
@@ -74,6 +145,36 @@ function navTo(path) {
   route(path)
 }
 
+function renderMainMenu(root) {
+  root.innerHTML = ''
+  const header = el('div','p-4 bg-indigo-600 text-white flex justify-between items-center',`Welcome ${currentUser()}`)
+  const logoutBtn = el('button','text-sm underline','Logout')
+  logoutBtn.addEventListener('click', () => { logout(); renderUserSelect(root) })
+  header.appendChild(logoutBtn)
+  root.appendChild(header)
+
+  const container = el('div','p-4 space-y-4')
+
+  const exercise = el('div','p-4 bg-white rounded shadow','')
+  exercise.appendChild(el('h3','text-lg font-semibold','Exercise'))
+  const scheduleBtn = el('button','mt-3 bg-indigo-500 text-white px-3 py-2 rounded mr-2','Schedule')
+  scheduleBtn.addEventListener('click', () => renderWeekly(root))
+  const muscleBtn = el('button','mt-3 bg-gray-200 px-3 py-2 rounded','Muscle')
+  muscleBtn.addEventListener('click', () => renderMuscle(root))
+  exercise.appendChild(scheduleBtn)
+  exercise.appendChild(muscleBtn)
+  container.appendChild(exercise)
+
+  const stretch = el('div','p-4 bg-white rounded shadow','')
+  stretch.appendChild(el('h3','text-lg font-semibold','Stretch'))
+  const stretchBtn = el('button','mt-3 bg-indigo-500 text-white px-3 py-2 rounded','Open Stretch Library')
+  stretchBtn.addEventListener('click', () => renderStretch(root))
+  stretch.appendChild(stretchBtn)
+  container.appendChild(stretch)
+
+  root.appendChild(container)
+}
+
 function renderWeekly(root) {
   root.innerHTML = ''
   const header = el('div', 'p-4 bg-indigo-600 text-white flex justify-between items-center', 'Weekly Workout')
@@ -84,14 +185,14 @@ function renderWeekly(root) {
   })
   root.appendChild(header)
   header.appendChild(logoutBtn)
-  const grid = el('div', 'p-4 grid grid-cols-2 gap-4')
+  const list = el('div','p-4 flex flex-col gap-3')
   const days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
   days.forEach(d => {
-    const btn = el('button', 'day-btn', d.charAt(0).toUpperCase()+d.slice(1))
+    const btn = el('button','text-left w-full p-3 bg-white rounded shadow', d.charAt(0).toUpperCase()+d.slice(1))
     btn.addEventListener('click', () => navTo(`/day/${d}`))
-    grid.appendChild(btn)
+    list.appendChild(btn)
   })
-  root.appendChild(grid)
+  root.appendChild(list)
 }
 
 function renderDay(root, day) {
@@ -190,4 +291,73 @@ function renderExercise(root, day, sessionKey) {
     list.appendChild(card)
   })
   root.appendChild(list)
+}
+
+function renderMuscle(root) {
+  root.innerHTML = ''
+  const back = el('button','m-4 text-sm text-indigo-600','← Back')
+  back.addEventListener('click', () => renderMainMenu(root))
+  root.appendChild(back)
+  root.appendChild(el('h2','text-2xl font-bold p-4','Muscle View'))
+  // Simple muscle grouping: list all exercises and allow filtering by name
+  const all = []
+  Object.keys(workouts).forEach(day => {
+    const d = workouts[day]
+    if (d.type === 'single') all.push(...d.session)
+    if (d.type === 'double') { all.push(...d.am.session); all.push(...d.pm.session) }
+  })
+  const list = el('div','p-4 space-y-3')
+  all.forEach(e => {
+    const card = el('div','bg-white rounded p-3 shadow','')
+    card.appendChild(el('div','font-semibold', e.name))
+    card.appendChild(el('div','text-sm text-gray-600', e.notes || ''))
+    list.appendChild(card)
+  })
+  root.appendChild(list)
+}
+
+function renderStretch(root) {
+  root.innerHTML = ''
+  const back = el('button','m-4 text-sm text-indigo-600','← Back')
+  back.addEventListener('click', () => renderMainMenu(root))
+  root.appendChild(back)
+  root.appendChild(el('h2','text-2xl font-bold p-4','Stretch Library'))
+  const container = el('div','p-4 space-y-4')
+  // stretches can be nested; render top-level keys
+  Object.keys(stretches).forEach(k => {
+    const v = stretches[k]
+    const card = el('div','bg-white rounded p-4 shadow','')
+    card.appendChild(el('h3','font-semibold', k.replace(/_/g,' ').toUpperCase()))
+    if (Array.isArray(v)) {
+      v.forEach(s => {
+        const row = el('div','flex items-center gap-3 mt-2','')
+        const img = el('img','w-24 rounded','')
+        img.src = `/placeholders/${s.gif}`
+        img.alt = s.name
+        const info = el('div','', '')
+        info.appendChild(el('div','font-medium', s.name))
+        row.appendChild(img)
+        row.appendChild(info)
+        card.appendChild(row)
+      })
+    } else if (typeof v === 'object') {
+      Object.keys(v).forEach(sub => {
+        const subHdr = el('div','mt-3 font-semibold', sub)
+        card.appendChild(subHdr)
+        v[sub].forEach(s => {
+          const row = el('div','flex items-center gap-3 mt-2','')
+          const img = el('img','w-24 rounded','')
+          img.src = `/placeholders/${s.gif}`
+          img.alt = s.name
+          const info = el('div','', '')
+          info.appendChild(el('div','font-medium', s.name))
+          row.appendChild(img)
+          row.appendChild(info)
+          card.appendChild(row)
+        })
+      })
+    }
+    container.appendChild(card)
+  })
+  root.appendChild(container)
 }
