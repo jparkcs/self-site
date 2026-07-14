@@ -3,51 +3,51 @@
     "type": "single",
     "title": "Full Push",
     "session": [
-      {"name":"Bulgarian Split Squats","sets":3,"reps":"8-12/leg","notes":"Rear foot on bench, torso upright.","gif":"DB_Bulgarian_Split_Squat.svg"},
-      {"name":"Flat DB Bench Press","sets":3,"reps":"8-12","notes":"Shoulder blades retracted.","gif":"DB_Flat_Bench.svg"},
-      {"name":"Incline DB Press","sets":3,"reps":"8-12","notes":"Bench at 30°-45°.","gif":"DB_Incline_Press.svg"},
-      {"name":"Seated DB Shoulder Press","sets":3,"reps":"8-12","notes":"High incline for back support.","gif":"DB_Shoulder_Press.svg"},
-      {"name":"DB Lateral Raises","sets":3,"reps":"12-15","notes":"Slight forward lean, slight elbow bend.","gif":"DB_Lateral_Raise.svg"},
-      {"name":"Decline DB Skullcrushers","sets":3,"reps":"10-15","notes":"Slight decline for triceps stretch.","gif":"DB_Decline_Skullcrusher.svg"}
+      {"name":"Bulgarian Split Squats","sets":3,"reps":"8-12/leg","notes":"Rear foot on bench, torso upright.","gif":"DB_Bulgarian_Split_Squat.gif"},
+      {"name":"Flat DB Bench Press","sets":3,"reps":"8-12","notes":"Shoulder blades retracted.","gif":"DB_Flat_Bench.gif"},
+      {"name":"Incline DB Press","sets":3,"reps":"8-12","notes":"Bench at 30°-45°.","gif":"DB_Incline_Press.gif"},
+      {"name":"Seated DB Shoulder Press","sets":3,"reps":"8-12","notes":"High incline for back support.","gif":"DB_Shoulder_Press.gif"},
+      {"name":"DB Lateral Raises","sets":3,"reps":"12-15","notes":"Slight forward lean, slight elbow bend.","gif":"DB_Lateral_Raise.gif"},
+      {"name":"Decline DB Skullcrushers","sets":3,"reps":"10-15","notes":"Slight decline for triceps stretch.","gif":"DB_Decline_Skullcrusher.gif"}
     ]
   },
   "tuesday": {
     "type": "double",
     "am": {"title":"Pull AM","session":[
-      {"name":"Chest-Supported Rows","sets":3,"reps":"8-12","notes":"Face down on 45° incline bench.","gif":"DB_Chest_Supported_Row.svg"},
-      {"name":"Single-Arm DB Rows","sets":3,"reps":"8-12/arm","notes":"Brace on flat bench.","gif":"DB_Single_Arm_Row.svg"},
-      {"name":"Dumbbell Pullovers","sets":3,"reps":"10-12","notes":"Perpendicular across flat bench.","gif":"DB_Pullover.svg"}
+      {"name":"Chest-Supported Rows","sets":3,"reps":"8-12","notes":"Face down on 45° incline bench.","gif":"DB_Chest_Supported_Row.gif"},
+      {"name":"Single-Arm DB Rows","sets":3,"reps":"8-12/arm","notes":"Brace on flat bench.","gif":"DB_Single_Arm_Row.gif"},
+      {"name":"Dumbbell Pullovers","sets":3,"reps":"10-12","notes":"Perpendicular across flat bench.","gif":"DB_Pullover.gif"}
     ]},
     "pm": {"title":"Pull PM","session":[
-      {"name":"Dumbbell RDLs","sets":3,"reps":"8-12","notes":"Slight knee bend, hinge at hips.","gif":"DB_RDL.svg"},
-      {"name":"Incline DB Curls","sets":3,"reps":"10-12","notes":"60° incline bench, arms hanging straight down.","gif":"DB_Incline_Curl.svg"},
-      {"name":"DB Hammer Curls","sets":3,"reps":"10-12","notes":"Neutral grip.","gif":"DB_Hammer_Curl.svg"}
+      {"name":"Dumbbell RDLs","sets":3,"reps":"8-12","notes":"Slight knee bend, hinge at hips.","gif":"DB_RDL.gif"},
+      {"name":"Incline DB Curls","sets":3,"reps":"10-12","notes":"60° incline bench, arms hanging straight down.","gif":"DB_Incline_Curl.gif"},
+      {"name":"DB Hammer Curls","sets":3,"reps":"10-12","notes":"Neutral grip.","gif":"DB_Hammer_Curl.gif"}
     ]}
   },
   "wednesday": {"type":"rest"},
   "thursday": {
     "type": "double",
     "am": {"title":"Push AM","session":[
-      {"name":"Flat DB Bench Press","sets":3,"reps":"8-12","gif":"DB_Flat_Bench.svg"},
-      {"name":"Incline DB Press","sets":3,"reps":"8-12","gif":"DB_Incline_Press.svg"},
-      {"name":"Decline DB Skullcrushers","sets":3,"reps":"10-15","gif":"DB_Decline_Skullcrusher.svg"}
+      {"name":"Flat DB Bench Press","sets":3,"reps":"8-12","gif":"DB_Flat_Bench.gif"},
+      {"name":"Incline DB Press","sets":3,"reps":"8-12","gif":"DB_Incline_Press.gif"},
+      {"name":"Decline DB Skullcrushers","sets":3,"reps":"10-15","gif":"DB_Decline_Skullcrusher.gif"}
     ]},
     "pm": {"title":"Push PM","session":[
-      {"name":"Bulgarian Split Squats","sets":3,"reps":"8-12/leg","gif":"DB_Bulgarian_Split_Squat.svg"},
-      {"name":"Seated DB Shoulder Press","sets":3,"reps":"8-12","gif":"DB_Shoulder_Press.svg"},
-      {"name":"DB Lateral Raises","sets":3,"reps":"12-15","gif":"DB_Lateral_Raise.svg"}
+      {"name":"Bulgarian Split Squats","sets":3,"reps":"8-12/leg","gif":"DB_Bulgarian_Split_Squat.gif"},
+      {"name":"Seated DB Shoulder Press","sets":3,"reps":"8-12","gif":"DB_Shoulder_Press.gif"},
+      {"name":"DB Lateral Raises","sets":3,"reps":"12-15","gif":"DB_Lateral_Raise.gif"}
     ]}
   },
   "friday": {
     "type": "single",
     "title": "Full Pull",
     "session": [
-      {"name":"Dumbbell RDLs","sets":3,"reps":"8-12","notes":"Slight knee bend, hinge at hips.","gif":"DB_RDL.svg"},
-      {"name":"Chest-Supported Rows","sets":3,"reps":"8-12","notes":"Face down on 45° incline bench.","gif":"DB_Chest_Supported_Row.svg"},
-      {"name":"Single-Arm DB Rows","sets":3,"reps":"8-12/arm","notes":"Brace on flat bench.","gif":"DB_Single_Arm_Row.svg"},
-      {"name":"Dumbbell Pullovers","sets":3,"reps":"10-12","notes":"Perpendicular across flat bench.","gif":"DB_Pullover.svg"},
-      {"name":"Incline DB Curls","sets":3,"reps":"10-12","notes":"60° incline bench, arms hanging straight down.","gif":"DB_Incline_Curl.svg"},
-      {"name":"DB Hammer Curls","sets":3,"reps":"10-12","notes":"Neutral grip.","gif":"DB_Hammer_Curl.svg"}
+      {"name":"Dumbbell RDLs","sets":3,"reps":"8-12","notes":"Slight knee bend, hinge at hips.","gif":"DB_RDL.gif"},
+      {"name":"Chest-Supported Rows","sets":3,"reps":"8-12","notes":"Face down on 45° incline bench.","gif":"DB_Chest_Supported_Row.gif"},
+      {"name":"Single-Arm DB Rows","sets":3,"reps":"8-12/arm","notes":"Brace on flat bench.","gif":"DB_Single_Arm_Row.gif"},
+      {"name":"Dumbbell Pullovers","sets":3,"reps":"10-12","notes":"Perpendicular across flat bench.","gif":"DB_Pullover.gif"},
+      {"name":"Incline DB Curls","sets":3,"reps":"10-12","notes":"60° incline bench, arms hanging straight down.","gif":"DB_Incline_Curl.gif"},
+      {"name":"DB Hammer Curls","sets":3,"reps":"10-12","notes":"Neutral grip.","gif":"DB_Hammer_Curl.gif"}
     ]
   },
   "saturday": {"type":"rest"},

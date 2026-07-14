@@ -1,5 +1,22 @@
 import workouts from '../data/workouts.json'
 
+// Simple client-side auth using localStorage. Username/password: jp/jp
+function isAuthenticated() {
+  return localStorage.getItem('auth') === '1'
+}
+
+function login(username, password) {
+  if (username === 'jp' && password === 'jp') {
+    localStorage.setItem('auth', '1')
+    return true
+  }
+  return false
+}
+
+function logout() {
+  localStorage.removeItem('auth')
+}
+
 function el(tag, cls, txt) {
   const e = document.createElement(tag)
   if (cls) e.className = cls
@@ -8,10 +25,38 @@ function el(tag, cls, txt) {
 }
 
 export function init(root) {
+  if (!isAuthenticated()) return renderLogin(root)
   renderWeekly(root)
   window.onpopstate = () => {
     route(location.pathname)
   }
+}
+
+function renderLogin(root) {
+  root.innerHTML = ''
+  const card = el('div','max-w-sm mx-auto mt-12 p-6 bg-white rounded shadow','')
+  card.appendChild(el('h2','text-xl font-semibold mb-4','Please sign in'))
+  const user = el('input','w-full mb-2 p-2 border rounded')
+  user.placeholder = 'username'
+  const pass = el('input','w-full mb-4 p-2 border rounded')
+  pass.type = 'password'
+  pass.placeholder = 'password'
+  const btn = el('button','w-full bg-indigo-600 text-white p-2 rounded','Sign in')
+  const err = el('div','text-sm text-red-600 mt-2','')
+  btn.addEventListener('click', () => {
+    const ok = login(user.value.trim(), pass.value)
+    if (!ok) {
+      err.textContent = 'Invalid credentials'
+      return
+    }
+    route('/')
+    renderWeekly(root)
+  })
+  card.appendChild(user)
+  card.appendChild(pass)
+  card.appendChild(btn)
+  card.appendChild(err)
+  root.appendChild(card)
 }
 
 function route(path) {
@@ -31,8 +76,14 @@ function navTo(path) {
 
 function renderWeekly(root) {
   root.innerHTML = ''
-  const header = el('div', 'p-4 bg-indigo-600 text-white', 'Weekly Workout')
+  const header = el('div', 'p-4 bg-indigo-600 text-white flex justify-between items-center', 'Weekly Workout')
+  const logoutBtn = el('button','text-sm underline','Logout')
+  logoutBtn.addEventListener('click', () => {
+    logout()
+    renderLogin(root)
+  })
   root.appendChild(header)
+  header.appendChild(logoutBtn)
   const grid = el('div', 'p-4 grid grid-cols-2 gap-4')
   const days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
   days.forEach(d => {

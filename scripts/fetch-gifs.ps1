@@ -84,7 +84,8 @@ Write-Host "Updated $dataFile with downloaded filenames where applicable."
 # Commit locally
 git add $placeholdersDir\* | Out-Null
 git add data\workouts.json | Out-Null
-git commit -m "chore: add downloaded exercise media (local commit)" || Write-Host "No changes to commit."
+& git commit -m "chore: add downloaded exercise media (local commit)"
+if ($LASTEXITCODE -ne 0) { Write-Host "No changes to commit." }
 
 Pop-Location
 Write-Host "Done. GIFs downloaded: $($downloaded -join ', '). Files staged and committed locally (no push)."
